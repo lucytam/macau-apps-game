@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
   <title>手機應用大搜尋</title>
@@ -56,7 +56,7 @@
 
   <div class="btns">
     <button class="btn green" onclick="showAnswer()">正確答案</button>
-    <div id="selectedName">請按開始</div>
+    <div id="selectedName">請按「開始」</div>
     <button class="btn yellow" onclick="location.reload()">再來一次</button>
   </div>
 
@@ -64,15 +64,15 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyDvDcDoyNrpF-mBaPljufSEmZZVOrlN0EI",
-        authDomain: "macau-apps-game.firebaseapp.com",
-        databaseURL: "https://macau-apps-game-default-rtdb.firebaseio.com",
-        projectId: "macau-apps-game",
-        storageBucket: "macau-apps-game.firebasestorage.app",
-        messagingSenderId: "106690514581",
-        appId: "1:106690514581:web:10ccad8c06365e4174159c"
-      };
+    const firebaseConfig = {
+      apiKey: "AIzaSyDvDcDoyNrpF-mBaPljufSEmZZVOrlN0EI",
+      authDomain: "macau-apps-game.firebaseapp.com",
+      databaseURL: "https://macau-apps-game-default-rtdb.firebaseio.com",
+      projectId: "macau-apps-game",
+      storageBucket: "macau-apps-game.firebasestorage.app",
+      messagingSenderId: "106690514581",
+      appId: "1:106690514581:web:10ccad8c06365e4174159c"
+    };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
@@ -85,6 +85,7 @@
     const iconGrid = document.getElementById("icons");
     const nameBox = document.getElementById("selectedName");
     let selectedIndex = -1;
+    let hasAnimated = false; // ✅ 確保只動畫一次
 
     // 建立圖示
     appNames.forEach((name, idx) => {
@@ -95,23 +96,23 @@
       iconGrid.appendChild(img);
     });
 
-    // 監聽 Firebase 資料變化
+    // 監聽 Firebase
     onValue(ref(db, 'game/selection'), snapshot => {
       const data = snapshot.val();
-      if (!data) return;
-
+      if (!data || hasAnimated) return; // ✅ 避免重複動畫
       animateSelection(data.selected);
     });
 
-    // 抽選動畫
+    // 動畫效果（2秒內完成）
     function animateSelection(target) {
+      hasAnimated = true;
       let i = 0;
       nameBox.innerText = "選取中...";
       const interval = setInterval(() => {
         document.querySelectorAll(".icon").forEach(e => e.classList.remove("highlight"));
         document.getElementById(`icon${i}`).classList.add("highlight");
         i = (i + 1) % 10;
-      }, 100);
+      }, 80); // 每80ms 跳一次
 
       setTimeout(() => {
         clearInterval(interval);
@@ -119,18 +120,19 @@
         document.getElementById(`icon${target}`).classList.add("highlight");
         selectedIndex = target;
         nameBox.innerText = "請按正確答案";
-      }, 3000);
+      }, 2000); // ⏰ 2秒內完成
     }
 
-    // 顯示選中 App 名稱
+    // 顯示結果
     function showAnswer() {
       if (selectedIndex >= 0) {
         nameBox.innerText = appNames[selectedIndex];
       } else {
-        nameBox.innerText = "請先開始遊戲";
+        nameBox.innerText = "尚未開始抽選";
       }
     }
-    window.showAnswer = showAnswer; // ✅ 讓按鈕能呼叫
+
+    window.showAnswer = showAnswer;
   </script>
 
 </body>

@@ -1,44 +1,83 @@
-<!-- game.html -->
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>📱手機應用Apps大搜尋</title>
+  <title>手機應用大搜尋</title>
   <style>
-    .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-width: 600px; margin: auto; }
-    .icon { border: 5px solid transparent; border-radius: 10px; }
-    .highlight { border: 5px solid yellow; }
-    #result { text-align: center; font-size: 1.5em; margin-top: 20px; }
-    .btns { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
-    .btn { font-size: 1.2em; padding: 10px 20px; border: none; border-radius: 10px; }
+    body { font-family: sans-serif; text-align: center; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+    .icon {
+      border: 5px solid transparent;
+      border-radius: 12px;
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+    }
+    .highlight {
+      border-color: yellow;
+    }
+    .app-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 12px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 1.4em;
+      font-weight: bold;
+    }
+    .btns {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    .btn {
+      font-size: 1em;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
     .green { background: green; color: white; }
     .yellow { background: orange; color: white; }
   </style>
 </head>
 <body>
-  <h1 style="text-align:center;">📱 手機應用 Apps 大搜尋</h1>
+
+  <h1>📱 手機應用 Apps 大搜尋</h1>
+
   <div class="grid" id="icons">
-    <!-- 圖示將在 JS 中載入 -->
+    <!-- 圖示會由 JS 插入 -->
   </div>
-  <div id="result"> </div>
+
+  <div id="result"></div>
+
   <div class="btns">
     <button class="btn green" onclick="showAnswer()">正確答案</button>
     <button class="btn yellow" onclick="location.reload()">再來一次</button>
   </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDvDcDoyNrpF-mBaPljufSEmZZVOrlN0EI",
-      authDomain: "macau-apps-game.firebaseapp.com",
-      databaseURL: "https://macau-apps-game-default-rtdb.firebaseio.com",
-      projectId: "macau-apps-game",
-      storageBucket: "macau-apps-game.firebasestorage.app",
-      messagingSenderId: "106690514581",
-      appId: "1:106690514581:web:10ccad8c06365e4174159c"
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyDvDcDoyNrpF-mBaPljufSEmZZVOrlN0EI",
+  authDomain: "macau-apps-game.firebaseapp.com",
+  databaseURL: "https://macau-apps-game-default-rtdb.firebaseio.com",
+  projectId: "macau-apps-game",
+  storageBucket: "macau-apps-game.firebasestorage.app",
+  messagingSenderId: "106690514581",
+  appId: "1:106690514581:web:10ccad8c06365e4174159c"
+};
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
@@ -47,25 +86,36 @@
       "一戶通", "澳門政府新聞", "澳門物價情報", "澳門氣象局", "澳門衛生局資訊",
       "警務易", "市政在線", "長者服務", "澳門出行", "巴士報站"
     ];
+
     const iconGrid = document.getElementById("icons");
-
-    // 動態載入圖示
-    appNames.forEach((name, idx) => {
-      const img = document.createElement("img");
-      img.src = `icons/${idx + 1}.png`;  // 圖片命名為 1.png, 2.png...
-      img.className = "icon";
-      img.id = `icon${idx}`;
-      iconGrid.appendChild(img);
-    });
-
     let selectedIndex = -1;
 
+    // 建立圖示與標籤
+    appNames.forEach((name, idx) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "app-wrapper";
+
+      const img = document.createElement("img");
+      img.src = `icons/${idx + 1}.png`;
+      img.className = "icon";
+      img.id = `icon${idx}`;
+
+      const label = document.createElement("div");
+      label.innerText = name;
+
+      wrapper.appendChild(img);
+      wrapper.appendChild(label);
+      iconGrid.appendChild(wrapper);
+    });
+
+    // 接收 Firebase 選取資料
     onValue(ref(db, 'game/selection'), snapshot => {
       const data = snapshot.val();
       if (!data) return;
       animateSelection(data.selected);
     });
 
+    // 動畫效果：3秒內快速閃過，最後選中
     function animateSelection(target) {
       let i = 0;
       const interval = setInterval(() => {
@@ -82,11 +132,13 @@
       }, 3000);
     }
 
+    // 顯示選中的 app 名稱
     function showAnswer() {
       if (selectedIndex >= 0) {
         document.getElementById("result").innerText = `👉 選中的 App 是：${appNames[selectedIndex]}`;
       }
     }
   </script>
+
 </body>
 </html>

@@ -99,7 +99,7 @@
       const snapshot = await get(child(dbRef, 'game/selection'));
       if (snapshot.exists()) {
         startBtn.disabled = true;
-        startBtn.innerText = "請看螢幕";
+        startBtn.innerText = "已經開始";
         return;
       }
 
@@ -110,7 +110,7 @@
       });
 
       startBtn.disabled = true;
-      startBtn.innerText = "請看螢幕";
+      startBtn.innerText = "已開始，請查看螢幕";
     }
 
     window.checkAndStart = checkAndStart;

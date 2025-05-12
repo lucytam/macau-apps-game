@@ -85,7 +85,7 @@
     const iconGrid = document.getElementById("icons");
     const nameBox = document.getElementById("selectedName");
     let selectedIndex = -1;
-    let hasAnimated = false; // ✅ 確保只動畫一次
+    let lastTrigger = null;
 
     // 建立圖示
     appNames.forEach((name, idx) => {
@@ -96,23 +96,26 @@
       iconGrid.appendChild(img);
     });
 
-    // 監聽 Firebase
+    // Firebase 資料變更 → 只在 trigger 改變時才選取
     onValue(ref(db, 'game/selection'), snapshot => {
       const data = snapshot.val();
-      if (!data || hasAnimated) return; // ✅ 避免重複動畫
-      animateSelection(data.selected);
+      if (!data) return;
+
+      if (data.trigger !== lastTrigger) {
+        lastTrigger = data.trigger;
+        animateSelection(data.selected);
+      }
     });
 
-    // 動畫效果（2秒內完成）
+    // 動畫 2 秒選定
     function animateSelection(target) {
-      hasAnimated = true;
       let i = 0;
       nameBox.innerText = "選取中...";
       const interval = setInterval(() => {
         document.querySelectorAll(".icon").forEach(e => e.classList.remove("highlight"));
         document.getElementById(`icon${i}`).classList.add("highlight");
         i = (i + 1) % 10;
-      }, 80); // 每80ms 跳一次
+      }, 80);
 
       setTimeout(() => {
         clearInterval(interval);
@@ -120,10 +123,10 @@
         document.getElementById(`icon${target}`).classList.add("highlight");
         selectedIndex = target;
         nameBox.innerText = "請按正確答案";
-      }, 2000); // ⏰ 2秒內完成
+      }, 2000);
     }
 
-    // 顯示結果
+    // 顯示 App 名稱
     function showAnswer() {
       if (selectedIndex >= 0) {
         nameBox.innerText = appNames[selectedIndex];

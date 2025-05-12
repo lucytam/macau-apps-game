@@ -99,7 +99,7 @@
       const snapshot = await get(child(dbRef, 'game/selection'));
       if (snapshot.exists()) {
         startBtn.disabled = true;
-        startBtn.innerText = "已經開始";
+        startBtn.innerText = "請看螢幕";
         return;
       }
 

@@ -128,9 +128,9 @@ const firebaseConfig = {
 
     // 按「正確答案」顯示選中名稱
     function showAnswer() {
+        console.log("showAnswer called. Index = ", selectedIndex);
       if (selectedIndex >= 0) {
         nameBox.innerText = appNames[selectedIndex];
-        console.log("正確答案是：", appNames[selectedIndex]);  // ✅ debug
       } else {
         nameBox.innerText = "請先開始遊戲";
       }

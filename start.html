@@ -12,13 +12,6 @@
       padding: 20px;
     }
 
-    .header img {
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto;
-      display: block;
-    }
-
     .start-button {
       background-color: #1aad19;
       color: white;
@@ -30,8 +23,9 @@
       margin-top: 40px;
     }
 
-    .start-button:hover {
-      background-color: #179b16;
+    .start-button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
     }
 
     .banner {
@@ -50,18 +44,11 @@
     .logo-bar img {
       height: 50px;
     }
-
-    .title-text {
-      font-size: 1.2em;
-      margin-bottom: 20px;
-      color: #333;
-    }
-
   </style>
 </head>
 <body>
 
-  <!-- 上方 LOGO -->
+  <!-- LOGO 區 -->
   <div class="logo-bar">
     <div>
       <div>主辦：</div>
@@ -73,12 +60,13 @@
     </div>
   </div>
 
-  <!-- 中間標題圖 -->
+  <!-- 標題圖片 -->
   <img src="手機apps網頁-02.jpg" class="banner" alt="手機應用推廣圖示">
 
-  <!-- 按鈕 -->
-  <button class="start-button" onclick="startGame()">開始</button>
+  <!-- 開始按鈕 -->
+  <button id="startBtn" class="start-button" onclick="startGame()">開始</button>
 
+  <!-- Firebase 腳本 -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
@@ -97,14 +85,18 @@
     const db = getDatabase(app);
 
     function startGame() {
-      const randomIndex = Math.floor(Math.random() * 10); // 0~9
+      const btn = document.getElementById("startBtn");
+      btn.disabled = true;
+      btn.innerText = "已開始，請查看螢幕";
+
+      const randomIndex = Math.floor(Math.random() * 10);
       set(ref(db, 'game/selection'), {
         trigger: Date.now(),
         selected: randomIndex
       });
     }
 
-    window.startGame = startGame; // 重要：讓按鈕能呼叫
+    window.startGame = startGame;
   </script>
 </body>
 </html>

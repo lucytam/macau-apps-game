@@ -64,15 +64,15 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDvDcDoyNrpF-mBaPljufSEmZZVOrlN0EI",
-  authDomain: "macau-apps-game.firebaseapp.com",
-  databaseURL: "https://macau-apps-game-default-rtdb.firebaseio.com",
-  projectId: "macau-apps-game",
-  storageBucket: "macau-apps-game.firebasestorage.app",
-  messagingSenderId: "106690514581",
-  appId: "1:106690514581:web:10ccad8c06365e4174159c"
-};
+      const firebaseConfig = {
+        apiKey: "AIzaSyDvDcDoyNrpF-mBaPljufSEmZZVOrlN0EI",
+        authDomain: "macau-apps-game.firebaseapp.com",
+        databaseURL: "https://macau-apps-game-default-rtdb.firebaseio.com",
+        projectId: "macau-apps-game",
+        storageBucket: "macau-apps-game.firebasestorage.app",
+        messagingSenderId: "106690514581",
+        appId: "1:106690514581:web:10ccad8c06365e4174159c"
+      };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
@@ -95,17 +95,15 @@ const firebaseConfig = {
       iconGrid.appendChild(img);
     });
 
-    // Firebase 資料監聽
+    // 監聽 Firebase 資料變化
     onValue(ref(db, 'game/selection'), snapshot => {
       const data = snapshot.val();
       if (!data) return;
 
-      console.log("收到選取資料：", data);  // ✅ debug
-
       animateSelection(data.selected);
     });
 
-    // 動畫播放並選中
+    // 抽選動畫
     function animateSelection(target) {
       let i = 0;
       nameBox.innerText = "選取中...";
@@ -119,22 +117,20 @@ const firebaseConfig = {
         clearInterval(interval);
         document.querySelectorAll(".icon").forEach(e => e.classList.remove("highlight"));
         document.getElementById(`icon${target}`).classList.add("highlight");
-
         selectedIndex = target;
-        console.log("動畫結束，選中：", selectedIndex);  // ✅ debug
         nameBox.innerText = "請按正確答案";
       }, 3000);
     }
 
-    // 按「正確答案」顯示選中名稱
+    // 顯示選中 App 名稱
     function showAnswer() {
-        console.log("showAnswer called. Index = ", selectedIndex);
       if (selectedIndex >= 0) {
         nameBox.innerText = appNames[selectedIndex];
       } else {
         nameBox.innerText = "請先開始遊戲";
       }
     }
+    window.showAnswer = showAnswer; // ✅ 讓按鈕能呼叫
   </script>
 
 </body>

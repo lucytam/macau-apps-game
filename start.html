@@ -1,9 +1,8 @@
-<!-- start.html -->
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>開始遊戲</title>
+  <title>開始抽選</title>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
@@ -22,16 +21,18 @@
     const db = getDatabase(app);
 
     function startGame() {
-      const randomIndex = Math.floor(Math.random() * 10); // 0 至 9
+      const randomIndex = Math.floor(Math.random() * 10); // 0 ~ 9
       set(ref(db, 'game/selection'), {
-        trigger: Date.now(),   // 為了觸發畫面刷新
+        trigger: Date.now(), // 強制刷新用
         selected: randomIndex
       });
     }
+
+    window.startGame = startGame;
   </script>
 </head>
 <body>
-  <h1>📱 手機應用 Apps 大搜尋</h1>
-  <button onclick="startGame()" style="font-size:2em; padding: 1em;">開始</button>
+  <h1>🎲 手機應用 Apps 大搜尋</h1>
+  <button onclick="startGame()" style="font-size: 2em; padding: 1em;">開始</button>
 </body>
 </html>

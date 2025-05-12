@@ -18,15 +18,10 @@
       width: 100px;
       height: 100px;
       object-fit: cover;
+      cursor: pointer;
     }
     .highlight {
       border-color: yellow;
-    }
-    .app-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-size: 12px;
     }
     #result {
       margin-top: 20px;
@@ -38,6 +33,7 @@
       display: flex;
       justify-content: center;
       gap: 20px;
+      align-items: center;
     }
     .btn {
       font-size: 1em;
@@ -48,6 +44,14 @@
     }
     .green { background: green; color: white; }
     .yellow { background: orange; color: white; }
+    #selectedName {
+      border: 2px solid gray;
+      border-radius: 10px;
+      padding: 10px 20px;
+      min-width: 180px;
+      background: #f5f5f5;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -62,6 +66,7 @@
 
   <div class="btns">
     <button class="btn green" onclick="showAnswer()">正確答案</button>
+    <div id="selectedName">請點選圖示</div>
     <button class="btn yellow" onclick="location.reload()">再來一次</button>
   </div>
 
@@ -88,24 +93,24 @@ const firebaseConfig = {
     ];
 
     const iconGrid = document.getElementById("icons");
+    const nameBox = document.getElementById("selectedName");
     let selectedIndex = -1;
 
-    // 建立圖示與標籤
+    // 建立圖示（無標籤）
     appNames.forEach((name, idx) => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "app-wrapper";
-
       const img = document.createElement("img");
       img.src = `icons/${idx + 1}.png`;
       img.className = "icon";
       img.id = `icon${idx}`;
+      img.dataset.index = idx;
+      img.title = name;
 
-      const label = document.createElement("div");
-      label.innerText = name;
+      // 點擊圖示顯示名稱
+      img.addEventListener("click", () => {
+        nameBox.innerText = name;
+      });
 
-      wrapper.appendChild(img);
-      wrapper.appendChild(label);
-      iconGrid.appendChild(wrapper);
+      iconGrid.appendChild(img);
     });
 
     // 接收 Firebase 選取資料
@@ -115,7 +120,7 @@ const firebaseConfig = {
       animateSelection(data.selected);
     });
 
-    // 動畫效果：3秒內快速閃過，最後選中
+    // 動畫效果：3秒快速閃過，最後選中
     function animateSelection(target) {
       let i = 0;
       const interval = setInterval(() => {
@@ -132,7 +137,7 @@ const firebaseConfig = {
       }, 3000);
     }
 
-    // 顯示選中的 app 名稱
+    // 顯示選中 App 名稱
     function showAnswer() {
       if (selectedIndex >= 0) {
         document.getElementById("result").innerText = `👉 選中的 App 是：${appNames[selectedIndex]}`;

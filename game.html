@@ -18,7 +18,6 @@
       width: 100px;
       height: 100px;
       object-fit: cover;
-      cursor: pointer;
     }
     .highlight {
       border-color: yellow;
@@ -58,15 +57,13 @@
 
   <h1>📱 手機應用 Apps 大搜尋</h1>
 
-  <div class="grid" id="icons">
-    <!-- 圖示會由 JS 插入 -->
-  </div>
+  <div class="grid" id="icons"></div>
 
   <div id="result"></div>
 
   <div class="btns">
     <button class="btn green" onclick="showAnswer()">正確答案</button>
-    <div id="selectedName">請點選圖示</div>
+    <div id="selectedName">等待開始...</div>
     <button class="btn yellow" onclick="location.reload()">再來一次</button>
   </div>
 
@@ -74,15 +71,15 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDvDcDoyNrpF-mBaPljufSEmZZVOrlN0EI",
-  authDomain: "macau-apps-game.firebaseapp.com",
-  databaseURL: "https://macau-apps-game-default-rtdb.firebaseio.com",
-  projectId: "macau-apps-game",
-  storageBucket: "macau-apps-game.firebasestorage.app",
-  messagingSenderId: "106690514581",
-  appId: "1:106690514581:web:10ccad8c06365e4174159c"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyDvDcDoyNrpF-mBaPljufSEmZZVOrlN0EI",
+      authDomain: "macau-apps-game.firebaseapp.com",
+      databaseURL: "https://macau-apps-game-default-rtdb.firebaseio.com",
+      projectId: "macau-apps-game",
+      storageBucket: "macau-apps-game.firebasestorage.app",
+      messagingSenderId: "106690514581",
+      appId: "1:106690514581:web:10ccad8c06365e4174159c"
+    };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
@@ -96,33 +93,26 @@ const firebaseConfig = {
     const nameBox = document.getElementById("selectedName");
     let selectedIndex = -1;
 
-    // 建立圖示（無標籤）
+    // 建立圖示（無名稱）
     appNames.forEach((name, idx) => {
       const img = document.createElement("img");
       img.src = `icons/${idx + 1}.png`;
       img.className = "icon";
       img.id = `icon${idx}`;
-      img.dataset.index = idx;
-      img.title = name;
-
-      // 點擊圖示顯示名稱
-      img.addEventListener("click", () => {
-        nameBox.innerText = name;
-      });
-
       iconGrid.appendChild(img);
     });
 
-    // 接收 Firebase 選取資料
+    // Firebase 監聽資料
     onValue(ref(db, 'game/selection'), snapshot => {
       const data = snapshot.val();
       if (!data) return;
       animateSelection(data.selected);
     });
 
-    // 動畫效果：3秒快速閃過，最後選中
+    // 動畫效果
     function animateSelection(target) {
       let i = 0;
+      nameBox.innerText = "選取中...";
       const interval = setInterval(() => {
         document.querySelectorAll(".icon").forEach(e => e.classList.remove("highlight"));
         document.getElementById(`icon${i}`).classList.add("highlight");
@@ -134,13 +124,13 @@ const firebaseConfig = {
         document.querySelectorAll(".icon").forEach(e => e.classList.remove("highlight"));
         document.getElementById(`icon${target}`).classList.add("highlight");
         selectedIndex = target;
+        nameBox.innerText = "請按正確答案";
       }, 3000);
     }
 
-    // 顯示選中 App 名稱
     function showAnswer() {
       if (selectedIndex >= 0) {
-        document.getElementById("result").innerText = `👉 選中的 App 是：${appNames[selectedIndex]}`;
+        nameBox.innerText = appNames[selectedIndex];
       }
     }
   </script>

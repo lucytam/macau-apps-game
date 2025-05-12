@@ -1,0 +1,37 @@
+<!-- start.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>開始遊戲</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDvDcDoyNrpF-mBaPljufSEmZZVOrlN0EI",
+      authDomain: "macau-apps-game.firebaseapp.com",
+      databaseURL: "https://macau-apps-game-default-rtdb.firebaseio.com",
+      projectId: "macau-apps-game",
+      storageBucket: "macau-apps-game.firebasestorage.app",
+      messagingSenderId: "106690514581",
+      appId: "1:106690514581:web:10ccad8c06365e4174159c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    function startGame() {
+      const randomIndex = Math.floor(Math.random() * 10); // 0 至 9
+      set(ref(db, 'game/selection'), {
+        trigger: Date.now(),   // 為了觸發畫面刷新
+        selected: randomIndex
+      });
+    }
+  </script>
+</head>
+<body>
+  <h1>📱 手機應用 Apps 大搜尋</h1>
+  <button onclick="startGame()" style="font-size:2em; padding: 1em;">開始</button>
+</body>
+</html>

@@ -2,6 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>手機應用大搜尋 - 開始</title>
   <style>
     body {
@@ -12,37 +13,47 @@
       padding: 20px;
     }
 
+    .logo-bar {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .logo-block {
+      text-align: center;
+      margin: 5px 10px;
+    }
+
+    .logo-block img {
+      height: 40px;
+      max-width: 100px;
+    }
+
+    .banner {
+      width: 100%;
+      max-width: 400px;
+      margin: 20px auto;
+      border-radius: 12px;
+    }
+
     .start-button {
       background-color: #1aad19;
       color: white;
-      font-size: 3em;
-      padding: 20px 40px;
+      font-size: 2em;
+      padding: 15px 30px;
       border: none;
       border-radius: 20px;
       cursor: pointer;
-      margin-top: 40px;
+      margin-top: 30px;
+      width: 80%;
+      max-width: 300px;
     }
 
     .start-button:disabled {
       background-color: #ccc;
       cursor: not-allowed;
-    }
-
-    .banner {
-      width: 100%;
-      max-width: 450px;
-      margin: 0 auto;
-    }
-
-    .logo-bar {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      margin-bottom: 50px;
-    }
-
-    .logo-bar img {
-      height: 100px;
     }
   </style>
 </head>
@@ -50,51 +61,61 @@
 
   <!-- LOGO 區 -->
   <div class="logo-bar">
-    <div>
-      <img class="banner" src="caritas.png" alt="澳門明愛">
+    <div class="logo-block">
+      <div>主辦：</div>
+      <img src="caritas.png" alt="澳門明愛">
     </div>
-    <div>
-      <img class="banner" src="gov.png" alt="社會工作局">
+    <div class="logo-block">
+      <div>贊助：</div>
+      <img src="gov.png" alt="社會工作局">
     </div>
   </div>
 
-  <!-- 標題圖片 -->
-  <img src="手機apps網頁.jpg" class="banner" alt="手機應用推廣圖示">
-  <br><br>
-  <!-- 開始按鈕 -->
-  <button id="startBtn" class="start-button" onclick="startGame()">開始</button>
+  <!-- 主圖 -->
+  <img src="手機apps網頁-02.jpg" class="banner" alt="手機應用推廣圖示">
 
-  <!-- Firebase 腳本 -->
+  <!-- 開始按鈕 -->
+  <button id="startBtn" class="start-button" onclick="checkAndStart()">開始</button>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+    import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDvDcDoyNrpF-mBaPljufSEmZZVOrlN0EI",
-      authDomain: "macau-apps-game.firebaseapp.com",
-      databaseURL: "https://macau-apps-game-default-rtdb.firebaseio.com",
-      projectId: "macau-apps-game",
-      storageBucket: "macau-apps-game.firebasestorage.app",
-      messagingSenderId: "106690514581",
-      appId: "1:106690514581:web:10ccad8c06365e4174159c"
-    };
+      const firebaseConfig = {
+        apiKey: "AIzaSyDvDcDoyNrpF-mBaPljufSEmZZVOrlN0EI",
+        authDomain: "macau-apps-game.firebaseapp.com",
+        databaseURL: "https://macau-apps-game-default-rtdb.firebaseio.com",
+        projectId: "macau-apps-game",
+        storageBucket: "macau-apps-game.firebasestorage.app",
+        messagingSenderId: "106690514581",
+        appId: "1:106690514581:web:10ccad8c06365e4174159c"
+      };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    function startGame() {
-      const btn = document.getElementById("startBtn");
-      btn.disabled = true;
-      btn.innerText = "已開始，請查看螢幕";
+    const startBtn = document.getElementById("startBtn");
+
+    async function checkAndStart() {
+      const dbRef = ref(db);
+      const snapshot = await get(child(dbRef, 'game/selection'));
+      if (snapshot.exists()) {
+        startBtn.disabled = true;
+        startBtn.innerText = "已經開始";
+        return;
+      }
 
       const randomIndex = Math.floor(Math.random() * 10);
-      set(ref(db, 'game/selection'), {
+      await set(ref(db, 'game/selection'), {
         trigger: Date.now(),
         selected: randomIndex
       });
+
+      startBtn.disabled = true;
+      startBtn.innerText = "已開始，請查看螢幕";
     }
 
-    window.startGame = startGame;
+    window.checkAndStart = checkAndStart;
   </script>
 </body>
 </html>

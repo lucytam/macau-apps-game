@@ -103,6 +103,9 @@
     // 監聽 Firebase 選取指令
     onValue(ref(db, 'game/selection'), snapshot => {
       const data = snapshot.val();
+      
+      console.log("🛰️ Firebase received:", data);
+      
       if (!data || data.trigger === lastTrigger) return;
       lastTrigger = data.trigger;
 

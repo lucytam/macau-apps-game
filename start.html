@@ -110,14 +110,14 @@
         startBtn.innerText = "開始";
       } else {
         startBtn.disabled = true;
-        startBtn.innerText = "尚未完成上一輪";
+        startBtn.innerText = "請稍後";
       }
     });
 
     // ✅ 開始按鈕 → 寫入隨機 index 與 trigger
     async function startGame() {
       startBtn.disabled = true;
-      startBtn.innerText = "已開始，請查看螢幕";
+      startBtn.innerText = "請看螢幕";
 
       const randomIndex = Math.floor(Math.random() * 10);
       await set(ref(db, 'game/selection'), {

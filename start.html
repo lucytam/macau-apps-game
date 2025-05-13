@@ -96,7 +96,7 @@
     function startGame() {
       const btn = document.getElementById("startBtn");
       btn.disabled = true;
-      btn.innerText = "已開始，請查看螢幕";
+      btn.innerText = "請看螢幕";
 
       const randomIndex = Math.floor(Math.random() * 10);
       set(ref(db, 'game/selection'), {

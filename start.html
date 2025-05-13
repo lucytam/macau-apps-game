@@ -73,7 +73,7 @@
   <img src="logo/foundingapps.jpg" class="banner">
   <br>
   <!-- 開始按鈕 -->
-  <button id="startBtn" class="start-button" onclick="checkAndStart()">開始</button>
+  <button id="startBtn" class="start-button" onclick="startGame()">開始</button>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
@@ -89,31 +89,23 @@
         appId: "1:106690514581:web:10ccad8c06365e4174159c"
       };
 
+
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    const startBtn = document.getElementById("startBtn");
-
-    async function checkAndStart() {
-      const dbRef = ref(db);
-      const snapshot = await get(child(dbRef, 'game/selection'));
-      if (snapshot.exists()) {
-        startBtn.disabled = true;
-        startBtn.innerText = "已經開始";
-        return;
-      }
+    function startGame() {
+      const btn = document.getElementById("startBtn");
+      btn.disabled = true;
+      btn.innerText = "已開始，請查看螢幕";
 
       const randomIndex = Math.floor(Math.random() * 10);
-      await set(ref(db, 'game/selection'), {
+      set(ref(db, 'game/selection'), {
         trigger: Date.now(),
         selected: randomIndex
       });
-
-      startBtn.disabled = true;
-      startBtn.innerText = "已開始，請查看螢幕";
     }
 
-    window.checkAndStart = checkAndStart;
+    window.startGame = startGame;
   </script>
 </body>
 </html>

@@ -73,7 +73,7 @@
   <img src="logo/foundingapps.jpg" class="banner">
   <br>
   <!-- 開始按鈕 -->
-  <button id="startBtn" class="start-button" onclick="startGame()">開始</button>
+  <button id="startBtn" class="start-button" disabled>載入中...</button>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
@@ -92,20 +92,34 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
+    const startBtn = document.getElementById("startBtn");
 
-    function startGame() {
-      const btn = document.getElementById("startBtn");
-      btn.disabled = true;
-      btn.innerText = "請看螢幕";
+    // ✅ 監聽 status 狀態是否允許開始
+    onValue(ref(db, 'game/status'), (snapshot) => {
+      const status = snapshot.val();
+      if (status === 'ready') {
+        startBtn.disabled = false;
+        startBtn.innerText = "開始";
+      } else {
+        startBtn.disabled = true;
+        startBtn.innerText = "尚未完成上一輪";
+      }
+    });
+
+    // ✅ 開始按鈕 → 寫入隨機 index 與 trigger
+    async function startGame() {
+      startBtn.disabled = true;
+      startBtn.innerText = "已開始，請查看螢幕";
 
       const randomIndex = Math.floor(Math.random() * 10);
-      set(ref(db, 'game/selection'), {
+      await set(ref(db, 'game/selection'), {
         trigger: Date.now(),
         selected: randomIndex
       });
     }
 
     window.startGame = startGame;
+    startBtn.onclick = startGame;
   </script>
 </body>
 </html>

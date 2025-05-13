@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head><title>重設遊戲狀態</title></head>
+<body>
+  <h2>🧹 重設狀態為 ready</h2>
+  <button onclick="resetStatus()">重設 Firebase</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDvDcDoyNrpF-mBaPljufSEmZZVOrlN0EI",
+      authDomain: "macau-apps-game.firebaseapp.com",
+      databaseURL: "https://macau-apps-game-default-rtdb.firebaseio.com",
+      projectId: "macau-apps-game",
+      storageBucket: "macau-apps-game.firebasestorage.app",
+      messagingSenderId: "106690514581",
+      appId: "1:106690514581:web:10ccad8c06365e4174159c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    function resetStatus() {
+      set(ref(db, 'game/status'), 'ready');
+      alert('狀態已重設為 ready！');
+    }
+
+    window.resetStatus = resetStatus;
+  </script>
+</body>
+</html>

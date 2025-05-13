@@ -100,16 +100,18 @@
       iconGrid.appendChild(img);
     });
 
-    // Firebase 監聽資料，只有 trigger 改變才執行
+    // 監聽 Firebase 選取指令
     onValue(ref(db, 'game/selection'), snapshot => {
       const data = snapshot.val();
       if (!data || data.trigger === lastTrigger) return;
-
       lastTrigger = data.trigger;
+
+      // 🔒 開始選取 → 禁止 start.html 再次開始
+      set(ref(db, 'game/status'), 'running');
       animateSelection(data.selected);
     });
 
-    // 動畫效果（2秒內完成）
+    // 動畫效果
     function animateSelection(target) {
       let i = 0;
       nameBox.innerText = "選取中...";
@@ -125,23 +127,28 @@
         document.getElementById(`icon${target}`).classList.add("highlight");
         selectedIndex = target;
         nameBox.innerText = "請按正確答案";
+
+        // ✅ 完成選取 → 狀態設為 done
+        set(ref(db, 'game/status'), 'done');
       }, 2000);
     }
 
-    // 顯示選中名稱
+    // 顯示 App 名稱
     function showAnswer() {
       if (selectedIndex >= 0) {
         nameBox.innerText = appNames[selectedIndex];
+        set(ref(db, 'game/status'), 'ready'); // ✅ 結束 → 開放 start.html
       } else {
         nameBox.innerText = "尚未開始抽選";
       }
     }
 
-    // 再來一次：清除高亮與文字
+    // 重設畫面
     function resetGame() {
       document.querySelectorAll(".icon").forEach(e => e.classList.remove("highlight"));
-      nameBox.innerText = "請按「開始」";
+      nameBox.innerText = "請按下開始";
       selectedIndex = -1;
+      set(ref(db, 'game/status'), 'ready'); // ✅ 手動允許下一輪
     }
 
     window.showAnswer = showAnswer;

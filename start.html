@@ -22,23 +22,27 @@
         }
     
     .logo-bar {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
+      display: block;
       margin-bottom: 15px;
-      flex-wrap: wrap;
     }
 
     .logo-block {
+      display: inline-block;
+      vertical-align: top;
       text-align: center;
-      margin: 5px 10px;
     }
 
     .logo-block img {
       height: 100px;
-      max-width: 200px;
+      width: 100%;
     }
 
+    logo-block-1 {
+      width: 40%;
+    }
+    logo-block-2 {
+      width: 58%;
+    }
     .banner {
       width: 100%;
       max-width: 400px;
@@ -69,10 +73,10 @@
 
   <!-- LOGO 區 -->
   <div class="logo-bar">
-    <div class="logo-block">
+    <div class="logo-block logo-block-1">
       <img src="logo/caritas.png">
     </div>
-    <div class="logo-block">
+    <div class="logo-block logo-block-2">
       <img src="logo/ias.png">
     </div>
   </div>

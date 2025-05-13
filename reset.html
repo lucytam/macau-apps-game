@@ -1,9 +1,47 @@
 <!DOCTYPE html>
-<html>
-<head><title>重設遊戲狀態</title></head>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>重設狀態</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      text-align: center;
+      padding: 50px;
+      background-color: #f5f5f5;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    button {
+      font-size: 1.5em;
+      padding: 15px 30px;
+      background-color: #1aad19;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #179b16;
+    }
+
+    .status {
+      margin-top: 30px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
 <body>
-  <h2>🧹 重設狀態為 ready</h2>
-  <button onclick="resetStatus()">重設 Firebase</button>
+
+  <h1>🧹 重設 Firebase 狀態為 <span style="color:green">"ready"</span></h1>
+  <button onclick="resetStatus()">點我重設</button>
+  <div class="status" id="resultText">尚未操作</div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
@@ -21,13 +59,19 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
+    const resultText = document.getElementById("resultText");
 
-    function resetStatus() {
-      set(ref(db, 'game/status'), 'ready');
-      alert('狀態已重設為 ready！');
+    async function resetStatus() {
+      try {
+        await set(ref(db, 'game/status'), 'ready');
+        resultText.innerText = '✅ 已成功將狀態設為 "ready"！';
+      } catch (error) {
+        resultText.innerText = '❌ 設定失敗：' + error.message;
+      }
     }
 
     window.resetStatus = resetStatus;
   </script>
+
 </body>
 </html>

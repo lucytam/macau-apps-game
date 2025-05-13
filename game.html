@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>手機應用大搜尋</title>
+  <title>手機應用apps大搜尋</title>
   <style>
     body { font-family: sans-serif; text-align: center; }
      body {
@@ -46,9 +46,8 @@
     .green { background: green; color: white; }
     .yellow { background: orange; color: white; }
     #selectedName {
-      border: 2px solid gray;
       border-radius: 10px;
-      padding: 10px 20px;
+      padding: 10px 50px;
       min-width: 180px;
       background: #f5f5f5;
       font-weight: bold;
@@ -137,7 +136,7 @@
         document.querySelectorAll(".icon").forEach(e => e.classList.remove("highlight"));
         document.getElementById(`icon${target}`).classList.add("highlight");
         selectedIndex = target;
-        nameBox.innerText = "請按正確答案";
+        nameBox.innerText = "請按下正確答案";
 
         // ✅ 完成選取 → 狀態設為 done
         set(ref(db, 'game/status'), 'done');
@@ -150,14 +149,14 @@
         nameBox.innerText = appNames[selectedIndex];
         set(ref(db, 'game/status'), 'ready'); // ✅ 結束 → 開放 start.html
       } else {
-        nameBox.innerText = "尚未開始抽選";
+        nameBox.innerText = "未開始";
       }
     }
 
     // 重設畫面
     function resetGame() {
       document.querySelectorAll(".icon").forEach(e => e.classList.remove("highlight"));
-      nameBox.innerText = "請按下開始";
+      nameBox.innerText = "請按「開始」";
       selectedIndex = -1;
       set(ref(db, 'game/status'), 'ready'); // ✅ 手動允許下一輪
     }

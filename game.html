@@ -111,7 +111,9 @@
     onValue(ref(db, 'game/selection'), snapshot => {
       const data = snapshot.val();
       
-      console.log("🛰️ Firebase received:", data);
+        console.log("🛰️ Firebase received:", data);
+        console.log("上次 trigger:", lastTrigger);
+        console.log("新 trigger:", data.trigger);
       
       if (!data || data.trigger === lastTrigger) return;
       lastTrigger = data.trigger;

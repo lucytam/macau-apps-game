@@ -2,58 +2,65 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>智能手機應用Apps大搜查</title>
   <style>
     body {
+      background-image: url(BGI.jpg);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+      background-size: cover;
       margin: 0;
       font-family: sans-serif;
       background: #fff;
+      text-align: center;
     }
-    .container {
-      position: relative;
+
+    .header-img {
       width: 100%;
-      max-width: 768px;
-      margin: 0 auto;
-    }
-    .background {
-      width: 70%;
+      max-width: 360px;
       display: block;
-      margin: auto;
+      margin: 0px auto;
     }
+ 
     .icon-grid {
-      position: absolute;
-      top: 370px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
+      gap: 10px;
+      padding: 15px;
+      max-width: 400px;
+      margin: auto;
     }
     .icon {
-      aspect-ratio: 1/1;
-      border: 3px solid transparent;
-      border-radius: 15px;
-      cursor: pointer;
+      width: 90%;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      background: #f9f9f9;
       transition: border 0.2s;
     }
+
     .icon:hover {
-      border-color: #f90;
+      border-color: #ff9900;
     }
     .info-box {
-      position: absolute;
       width: 100%;
+      max-width: 500px;
+      margin: 10px auto 30px auto;
     }
+
     .title-box {
       background: #FFD000;
       padding: 10px;
       font-weight: bold;
-      font-size: 20px;
+      font-size: 18px;
       text-align: center;
     }
     .desc-box {
       background: #F1F1F1;
-      padding: 15px;
+      padding: 12px;
       font-size: 16px;
       line-height: 1.5;
     }
@@ -61,23 +68,22 @@
 </head>
 <body>
   <div class="container">
-    <img src="logo/foundingapps.jpg" alt="背景圖" class="background">
-
+    <img src="logo/logo+title-19.png" class="header-img">
     <div class="icon-grid">
-      <img src="icons/7.jpg" class="icon" onclick="showInfo('鏡湖通')">
-      <img src="icons/8.jpg" class="icon" onclick="showInfo('澳門衛生局資訊站')">
-      <img src="icons/5.jpg" class="icon" onclick="showInfo('澳門氣象局')">
-      <img src="icons/2.jpg" class="icon" onclick="showInfo('澳門長者服務')">
-      <img src="icons/3.jpg" class="icon" onclick="showInfo('一戶通')">
-      <img src="icons/4.jpg" class="icon" onclick="showInfo('澳門康復服務')">
-      <img src="icons/6.jpg" class="icon" onclick="showInfo('警務易')">
-      <img src="icons/9.jpg" class="icon" onclick="showInfo('巴士報站')">
-      <img src="icons/10.jpg" class="icon" onclick="showInfo('市政在線')">
+      <img src="icons/7.png" class="icon" onclick="showInfo('鏡湖通')">
+      <img src="icons/8.png" class="icon" onclick="showInfo('澳門衛生局資訊站')">
+      <img src="icons/5.png" class="icon" onclick="showInfo('澳門氣象局')">
+      <img src="icons/2.png" class="icon" onclick="showInfo('澳門長者服務')">
+      <img src="icons/3.png" class="icon" onclick="showInfo('一戶通')">
+      <img src="icons/4.png" class="icon" onclick="showInfo('澳門康復服務')">
+      <img src="icons/6.png" class="icon" onclick="showInfo('警務易')">
+      <img src="icons/9.png" class="icon" onclick="showInfo('巴士報站')">
+      <img src="icons/10.png" class="icon" onclick="showInfo('市政在線')">
     </div>
 
     <div class="info-box">
       <div class="title-box" id="appTitle">請點選一個圖示</div>
-      <div class="desc-box" id="appDesc">系統會顯示該應用的介紹。</div>
+      <div class="desc-box" id="appDesc">解釋手機應用程式的功能</div>
     </div>
   </div>
 
@@ -99,5 +105,6 @@
       document.getElementById("appDesc").innerText = appInfo[name] || "未有資料";
     }
   </script>
+
 </body>
 </html>

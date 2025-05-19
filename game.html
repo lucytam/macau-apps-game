@@ -4,15 +4,20 @@
   <meta charset="UTF-8">
   <title>智能手機應用Apps大搜查</title>
   <style>
-    body { font-family: sans-serif; text-align: center; }
-     body {
+    body { 
+            font-family: "Microsoft JhengHei", sans-serif; 
+            text-align: center;      
             background-image: url(BGI.jpg);
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-position: center;
             background-size: cover;
+            margin: 0;
+            padding: 10px;
+            background-color: #fff;
         }
     .grid {
+      position: relative;
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 15px;
@@ -35,6 +40,7 @@
       justify-content: center;
       gap: 20px;
       align-items: center;
+      flex-wrap: wrap;
     }
     .btn {
       font-size: 1em;
@@ -46,8 +52,9 @@
     .green { background: green; color: white; }
     .yellow { background: orange; color: white; }
     #selectedName {
+      border: 2px solid gray;
       border-radius: 10px;
-      padding: 10px 50px;
+      padding: 10px 20px;
       min-width: 180px;
       background: #f5f5f5;
       font-weight: bold;
@@ -57,6 +64,54 @@
       max-width: 600px;
       margin-top: 10px;
     }
+ 
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .overlay .backdrop {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 640px;
+      height: 250px;
+      backdrop-filter: blur(6px);
+      background: rgba(255, 255, 255, 0.15);
+      z-index: 1;
+      border-radius: 20px;
+
+      position: absolute;
+      backdrop-filter: blur(6px);
+      background: rgba(255, 255, 255, 0.2);
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      clip-path: inset(22% 0% 18% 0%); /* 模糊 grid 區域 */
+    }
+    .overlay img {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+      width: 150px;
+      height: 150px;
+      border-radius: 20px;
+      border: 5px solid yellow;
+      z-index: 2;
+      background: white;
+    }
+    .overlay.hidden {
+      display: none;
+    }   
   </style>
 </head>
 <body>
@@ -69,6 +124,11 @@
     <button class="btn green" onclick="showAnswer()">正確答案</button>
     <div id="selectedName">請按「開始」</div>
     <button class="btn yellow" onclick="resetGame()">再來一次</button>
+  </div>
+
+    <div id="overlay" class="overlay hidden">
+    <div class="backdrop"></div>
+    <img id="selectedImage" src="" alt="選中圖示" />
   </div>
 
   <script type="module">
@@ -95,6 +155,9 @@
 
     const iconGrid = document.getElementById("icons");
     const nameBox = document.getElementById("selectedName");
+    const overlay = document.getElementById("overlay");
+    const selectedImage = document.getElementById("selectedImage");
+
     let selectedIndex = -1;
     let lastTrigger = null;
 
@@ -110,12 +173,7 @@
     // 監聽 Firebase 選取指令
     onValue(ref(db, 'game/selection'), snapshot => {
       const data = snapshot.val();
-      
-        console.log("🛰️ Firebase received:", data);
-        console.log("上次 trigger:", lastTrigger);
-        console.log("新 trigger:", data.trigger);
-      
-      if (!data || data.trigger === lastTrigger) return;
+            if (!data || data.trigger === lastTrigger) return;
       lastTrigger = data.trigger;
 
       // 🔒 開始選取 → 禁止 start.html 再次開始
@@ -139,7 +197,7 @@
         document.getElementById(`icon${target}`).classList.add("highlight");
         selectedIndex = target;
         nameBox.innerText = "請按下正確答案";
-
+        showOverlay(target);
         // ✅ 完成選取 → 狀態設為 done
         set(ref(db, 'game/status'), 'done');
       }, 2000);
@@ -150,7 +208,7 @@
       if (selectedIndex >= 0) {
         nameBox.innerText = appNames[selectedIndex];
         set(ref(db, 'game/status'), 'ready'); // ✅ 結束 → 開放 start.html
-      } else {
+            } else {
         nameBox.innerText = "未開始";
       }
     }
@@ -161,6 +219,16 @@
       nameBox.innerText = "請按「開始」";
       selectedIndex = -1;
       set(ref(db, 'game/status'), 'ready'); // ✅ 手動允許下一輪
+      hideOverlay();
+    }
+
+    function showOverlay(index) {
+      selectedImage.src = `icons/${index + 1}.png`;
+      overlay.classList.remove("hidden");
+    }
+
+    function hideOverlay() {
+      overlay.classList.add("hidden");
     }
 
     window.showAnswer = showAnswer;

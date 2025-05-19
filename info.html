@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>智能手機應用Apps大搜查</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #fff;
+    }
+    .container {
+      position: relative;
+      width: 100%;
+      max-width: 768px;
+      margin: 0 auto;
+    }
+    .background {
+      width: 70%;
+      display: block;
+      margin: auto;
+    }
+    .icon-grid {
+      position: absolute;
+      top: 370px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+    .icon {
+      aspect-ratio: 1/1;
+      border: 3px solid transparent;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: border 0.2s;
+    }
+    .icon:hover {
+      border-color: #f90;
+    }
+    .info-box {
+      position: absolute;
+      width: 100%;
+    }
+    .title-box {
+      background: #FFD000;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 20px;
+      text-align: center;
+    }
+    .desc-box {
+      background: #F1F1F1;
+      padding: 15px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="logo/foundingapps.jpg" alt="背景圖" class="background">
+
+    <div class="icon-grid">
+      <img src="icons/7.jpg" class="icon" onclick="showInfo('鏡湖通')">
+      <img src="icons/8.jpg" class="icon" onclick="showInfo('澳門衛生局資訊站')">
+      <img src="icons/5.jpg" class="icon" onclick="showInfo('澳門氣象局')">
+      <img src="icons/2.jpg" class="icon" onclick="showInfo('澳門長者服務')">
+      <img src="icons/3.jpg" class="icon" onclick="showInfo('一戶通')">
+      <img src="icons/4.jpg" class="icon" onclick="showInfo('澳門康復服務')">
+      <img src="icons/6.jpg" class="icon" onclick="showInfo('警務易')">
+      <img src="icons/9.jpg" class="icon" onclick="showInfo('巴士報站')">
+      <img src="icons/10.jpg" class="icon" onclick="showInfo('市政在線')">
+    </div>
+
+    <div class="info-box">
+      <div class="title-box" id="appTitle">請點選一個圖示</div>
+      <div class="desc-box" id="appDesc">系統會顯示該應用的介紹。</div>
+    </div>
+  </div>
+
+  <script>
+    const appInfo = {
+      "鏡湖通": "為鏡湖醫院提供門診導診、報告查詢、輪候進度及醫院資料查詢。",
+      "澳門衛生局資訊站": "可隨時知道醫院輪候資訊、醫療補貼、查閱衛生局發佈的健康及醫療資訊。",
+      "澳門氣象局": "可查閱澳門即時天氣、七天天氣預報，外出前可預先了解天氣情況。",
+      "澳門長者服務": "可查閱長者服務、優惠資訊、新聞、學習課程及文娛活動等資料，讓長者了解可使用的服務及可參加的活動。",
+      "一戶通": "整合多項政府服務於一個應用程式內，方便查閱資料、提交表格及使用各種電子服務，提升便利性。最新版「我的健康2.0」亦在裏面，請立即加入了解。",
+      "澳門康復服務": "提供殘疾及康復服務相關資訊，方便有需要人士查閱及獲取復康資料。",
+      "警務易": "可接收警方最新資訊、防騙訊息、尋找警方熱線，隨時掌握治安消息。",
+      "巴士報站": "可查詢巴士路線、站點及即時巴士到站時間，方便規劃出行路線。",
+      "市政在線": "可以即時反映市政意見、查閱電子市政服務，並接收市政署相關資訊。"
+    };
+
+    function showInfo(name) {
+      document.getElementById("appTitle").innerText = name;
+      document.getElementById("appDesc").innerText = appInfo[name] || "未有資料";
+    }
+  </script>
+</body>
+</html>

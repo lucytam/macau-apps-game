@@ -16,7 +16,9 @@
       margin: 0;
       padding: 10px;
       font-size: 25px;
+      font-weight: bold;
         }
+
     .grid {
       position: relative;
       display: grid;
@@ -25,6 +27,7 @@
       max-width: 600px;
       margin: 5px auto;
     }
+
     .icon {
       border: 5px solid transparent;
       border-radius: 12px;
@@ -32,9 +35,11 @@
       height: 100px;
       object-fit: cover;
     }
+
     .highlight {
       border-color: yellow;
     }
+
     .btns {
       margin-top: 30px;
       display: flex;
@@ -43,6 +48,7 @@
       align-items: center;
       flex-wrap: wrap;
     }
+
     .btn {
       font-size: 1em;
       padding: 10px 20px;
@@ -50,16 +56,18 @@
       border: none;
       cursor: pointer;
     }
+
     .green { background: green; color: white; }
     .yellow { background: orange; color: white; }
+
     #selectedName {
-      border: 2px solid gray;
       border-radius: 10px;
       padding: 10px 20px;
       min-width: 180px;
       background: #f5f5f5;
       font-weight: bold;
     }
+
     .banner {
       width: 100%;
       max-width: 600px;
@@ -76,6 +84,7 @@
       pointer-events: none;
       z-index: 5;
     }
+
     .overlay .backdrop {
       position: absolute;
       top: 50%;
@@ -90,12 +99,12 @@
       pointer-events: none;
       clip-path: inset(25% 0% 20% 0%); /* 模糊  */
     }
-    .overlay img {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 
+    .overlay img {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       width: 150px;
       height: 150px;
       border-radius: 20px;
@@ -103,6 +112,7 @@
       z-index: 2;
       background: white;
     }
+
     .overlay.hidden {
       display: none;
     }   
@@ -193,7 +203,6 @@
         selectedIndex = target;
         nameBox.innerText = "請按下正確答案";
         showOverlay(target);
-        // ✅ 完成選取 → 狀態設為 done
         set(ref(db, 'game/status'), 'done');
       }, 2000);
     }
@@ -203,7 +212,7 @@
       if (selectedIndex >= 0) {
         nameBox.innerText = appNames[selectedIndex];
         set(ref(db, 'game/status'), 'ready'); // ✅ 結束 → 開放 start.html
-            } else {
+   } else {
         nameBox.innerText = "未開始";
       }
     }

@@ -5,16 +5,17 @@
   <title>智能手機應用Apps大搜查</title>
   <style>
     body { 
-            font-family: "Microsoft JhengHei", sans-serif; 
-            text-align: center;      
-            background-image: url(BGI.jpg);
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-position: center;
-            background-size: cover;
-            margin: 0;
-            padding: 10px;
-            background-color: #fff;
+      zoom: 200%;     
+      font-family: "Microsoft JhengHei", sans-serif; 
+      text-align: center;      
+      background-image: url(BGI.jpg);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+      background-size: cover;
+      margin: 0;
+      padding: 10px;
+      background-color: #fff;
         }
     .grid {
       position: relative;
@@ -35,7 +36,7 @@
       border-color: yellow;
     }
     .btns {
-      margin-top: 20px;
+      margin-top: 30px;
       display: flex;
       justify-content: center;
       gap: 20px;
@@ -82,7 +83,7 @@
       transform: translate(-50%, -50%);
       width: 640px;
       height: 250px;
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(8px);
       background: rgba(255, 255, 255, 0.15);
       z-index: 1;
       border-radius: 20px;
@@ -94,7 +95,7 @@
       height: 100%;
       z-index: 1;
       pointer-events: none;
-      clip-path: inset(22% 0% 18% 0%); /* 模糊 grid 區域 */
+      clip-path: inset(22% 0% 28% 0%); /* 模糊  */
     }
     .overlay img {
   position: fixed;
@@ -115,7 +116,7 @@
   </style>
 </head>
 <body>
-  
+<h1></h1>
     <img src="logo/appshowTV.png" class="banner">
   
   <div class="grid" id="icons"></div>
@@ -129,6 +130,7 @@
     <div id="overlay" class="overlay hidden">
     <div class="backdrop"></div>
     <img id="selectedImage" src="" alt="選中圖示" />
+    
   </div>
 
   <script type="module">

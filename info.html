@@ -30,7 +30,7 @@
       gap: 10px;
       padding: 15px;
       max-width: 400px;
-      margin: auto;
+      margin: -30px auto;
     }
 
     .icon {
@@ -75,6 +75,13 @@
 <body>
   <div class="container">
     <img src="logo/logo+title-19.png" class="header-img">
+
+    <div class="info-box">
+        <div class="title-box" id="appTitle">請點選一個圖示</div>
+        <div class="desc-box" id="appDesc">解釋手機應用程式的功能</div>
+      </div>
+    </div>    
+
     <div class="icon-grid">
       <img src="icons/7.png" class="icon" onclick="showInfo('鏡湖通')">
       <img src="icons/8.png" class="icon" onclick="showInfo('澳門衛生局資訊站')">
@@ -86,12 +93,6 @@
       <img src="icons/9.png" class="icon" onclick="showInfo('巴士報站')">
       <img src="icons/10.png" class="icon" onclick="showInfo('市政在線')">
     </div>
-
-    <div class="info-box">
-      <div class="title-box" id="appTitle">請點選一個圖示</div>
-      <div class="desc-box" id="appDesc">解釋手機應用程式的功能</div>
-    </div>
-  </div>
 
   <script>
     const appInfo = {

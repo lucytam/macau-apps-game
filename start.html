@@ -108,8 +108,12 @@
     });
 
     // ✅ 開始按鈕 → 寫入隨機 index 與 trigger
+    let hasStarted = false;
+
     async function startGame() {
-      startBtn.disabled = true;
+    if (hasStarted) return; 
+      hasStarted = true;
+      startBtn.disabled = true;  
       startBtn.innerText = "請看螢幕";
 
       const randomIndex = Math.floor(Math.random() * 10);
@@ -123,11 +127,12 @@
     startBtn.onclick = startGame;
 
 
+  <!-- 
     setTimeout(() => {
       window.close();
-    }, 5000);
+    }, 5000); 
+  -->
   
-
   </script>
 </body>
 </html>

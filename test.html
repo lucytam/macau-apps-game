@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start 控制頁</title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    button {
+      font-size: 1.2em;
+      padding: 15px 30px;
+      background: green;
+      color: white;
+      border: none;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>請按下開始進行抽選</h2>
+  <button id="startBtn" onclick="startGame()">開始</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT.firebaseio.com",
+      projectId: "YOUR_PROJECT",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "XXXX",
+      appId: "XXXX"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const startBtn = document.getElementById("startBtn");
+
+    let hasStarted = false;
+
+    async function startGame() {
+      if (hasStarted) return;
+      hasStarted = true;
+
+      startBtn.disabled = true;
+      startBtn.innerText = "已完成遊戲";
+
+      const randomIndex = Math.floor(Math.random() * 10);
+      await set(ref(db, 'game/selection'), {
+        trigger: Date.now(),
+        selected: randomIndex
+      });
+    }
+
+    window.startGame = startGame;
+  </script>
+</body>
+</html>

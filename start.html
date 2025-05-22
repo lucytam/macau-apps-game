@@ -114,6 +114,7 @@
     async function startGame() {
     if (hasStarted) return; 
       hasStarted = true;
+
       startBtn.disabled = true;  
       startBtn.innerText = "已開始，請看螢幕";
 
@@ -121,14 +122,15 @@
       await set(ref(db, 'game/selection'), {
         trigger: Date.now(),
         selected: randomIndex
+      }).then(() => {
+        document.getElementById('startGame').disabled = true;
       });
-
-        setTimeout(() => {
-          window.close();
-        }, 5000); 
-
     }
 
+   // setTimeout(() => {
+   //   window.close(start.html);
+   // }, 5000); 
+    
     window.startGame = startGame;
     startBtn.onclick = startGame;
   

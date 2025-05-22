@@ -115,7 +115,7 @@
     if (hasStarted) return; 
       hasStarted = true;
       startBtn.disabled = true;  
-      startBtn.innerText = "請看螢幕";
+      startBtn.innerText = "已開始，請看螢幕";
 
       const randomIndex = Math.floor(Math.random() * 10);
       await set(ref(db, 'game/selection'), {
@@ -125,7 +125,7 @@
     }
 
     window.startGame = startGame;
-    startBtn.onclick = startGame;
+ //   startBtn.onclick = startGame;
 
  //   setTimeout(() => {
  //    window.close();

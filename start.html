@@ -121,8 +121,9 @@
         trigger: Date.now(),
         selected: randomIndex
       }).then(() => {
-        document.getElementById('startGame').disabled = true;
+        startBtn.disabled = true;
         startBtn.innerText = "已開始，請看螢幕";
+
       });
     }
 

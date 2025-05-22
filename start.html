@@ -108,7 +108,8 @@
     });
 
     // ✅ 開始按鈕 → 寫入隨機 index 與 trigger
-    let hasStarted = false;
+
+   let hasStarted = false;
 
     async function startGame() {
     if (hasStarted) return; 
@@ -126,12 +127,9 @@
     window.startGame = startGame;
     startBtn.onclick = startGame;
 
-
-  <!-- 
-    setTimeout(() => {
-      window.close();
-    }, 5000); 
-  -->
+ //   setTimeout(() => {
+ //    window.close();
+ //   }, 5000); 
   
   </script>
 </body>

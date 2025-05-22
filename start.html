@@ -114,9 +114,7 @@
     async function startGame() {
     if (hasStarted) return; 
       hasStarted = true;
-
-      startBtn.disabled = true;  
-      startBtn.innerText = "已開始，請看螢幕";
+      //startBtn.disabled = true;  
 
       const randomIndex = Math.floor(Math.random() * 10);
       await set(ref(db, 'game/selection'), {
@@ -124,6 +122,7 @@
         selected: randomIndex
       }).then(() => {
         document.getElementById('startGame').disabled = true;
+        startBtn.innerText = "已開始，請看螢幕";
       });
     }
 

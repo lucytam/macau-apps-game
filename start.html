@@ -122,14 +122,15 @@
         trigger: Date.now(),
         selected: randomIndex
       });
+
+        setTimeout(() => {
+          window.close();
+        }, 5000); 
+
     }
 
     window.startGame = startGame;
- //   startBtn.onclick = startGame;
-
- //   setTimeout(() => {
- //    window.close();
- //   }, 5000); 
+    startBtn.onclick = startGame;
   
   </script>
 </body>

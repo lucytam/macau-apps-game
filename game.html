@@ -211,7 +211,7 @@
     function showAnswer() {
       if (selectedIndex >= 0) {
         nameBox.innerText = appNames[selectedIndex];
-        set(ref(db, 'game/status'), 'ready'); // ✅ 結束 → 開放 start.html
+     //   set(ref(db, 'game/status'), 'ready');   ✅ 結束 → 開放 start.html 
    } else {
         nameBox.innerText = "未開始";
       }

@@ -101,11 +101,7 @@
       if (status === 'ready') {
         startBtn.disabled = false;
         startBtn.innerText = "開始";
-      } if(status === 'done'){
-        startBtn.disabled = true;
-        startBtn.innerText = "已開始，請看螢幕";
-      }
-      else {
+      } else {
         startBtn.disabled = true;
         startBtn.innerText = "請稍後";
       }
@@ -119,7 +115,8 @@
     if (hasStarted) return; 
       hasStarted = true;
 
-
+        startBtn.disabled = true;
+        startBtn.innerText = "已開始，請看螢幕";
 
       const randomIndex = Math.floor(Math.random() * 10);
       await set(ref(db, 'game/selection'), {

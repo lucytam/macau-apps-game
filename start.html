@@ -60,6 +60,10 @@
       background-color: #ccc;
       cursor: not-allowed;
     }
+
+    .finish{
+      font-size: 25px;
+    }
   </style>
 </head>
 <body>
@@ -75,9 +79,11 @@
 
   <img src="logo/foundingapps.jpg" class="banner">
   
-  <button id="startBtn" class="start-button" disabled>載入中...</button>
+  <div class="finish" id="message" ></div>
   <br>
-  <div id="message"></div>
+  <button id="startBtn" class="start-button" disabled>載入中...</button>
+ 
+  
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";

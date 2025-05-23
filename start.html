@@ -76,7 +76,8 @@
   <img src="logo/foundingapps.jpg" class="banner">
   
   <button id="startBtn" class="start-button" disabled>載入中...</button>
-
+  <br>
+  <div id="message"></div>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
@@ -117,7 +118,8 @@
 
         startBtn.disabled = true;
         startBtn.innerText = "已開始，請看螢幕";
-
+        document.getElementById('message').innerText = "已啟動了，不能再按";
+      
       const randomIndex = Math.floor(Math.random() * 10);
       await set(ref(db, 'game/selection'), {
         trigger: Date.now(),

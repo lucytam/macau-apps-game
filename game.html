@@ -202,7 +202,7 @@
         document.querySelectorAll(".icon").forEach(e => e.classList.remove("highlight"));
         document.getElementById(`icon${target}`).classList.add("highlight");
         selectedIndex = target;
-        nameBox.innerText = "請按下正確答案";
+        nameBox.innerText = "請說出正確答案";
         showOverlay(target);
         set(ref(db, 'game/status'), 'done');
       }, 2000);
